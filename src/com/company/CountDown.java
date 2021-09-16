@@ -5,7 +5,8 @@ class CountDown {
 private int i; //when its instance variable thats will make the vaibale shared between thread1 and 2 in heap , => thread interference
     // every thrrad has his thread stack , so if variable is local so thats mean thrread can read local variable from thread stack not heap wich is shared
 
-    public void doCountDown() {
+    /** synchronzied method means thats only one thread will execute the method ( not shared between threads) **/
+    public /*synchronized*/ void doCountDown() {
 
         String color;
 
@@ -21,9 +22,12 @@ private int i; //when its instance variable thats will make the vaibale shared b
 
         }
 
-        for (i = 10; i > 0; i--) { // if "for int i =10" not for i=10 thats mean thread will run only his own way can t read the local varibale stored in thread stack of thread 2
-            System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
-        }
+        /*synchronized (color)*/synchronized (this){
+            for (i = 10; i > 0; i--) { // if "for int i =10" not for i=10 thats mean thread will run only his own way can t read the local varibale stored in thread stack of thread 2
+                System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
+           }
+         }
+
 
     }
 
